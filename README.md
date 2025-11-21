@@ -154,7 +154,7 @@ Before you begin, ensure you have:
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/Chemical-Equipment-Parameter-Visualizer.git
+git clone https://github.com/KanishaSharma11/Chemical-Equipment-Parameter-Visualizer/tree/main.git
 cd Chemical-Equipment-Parameter-Visualizer
 ```
 
@@ -232,7 +232,7 @@ npm install
 Edit `.env` file to point to your backend:
 
 ```env
-REACT_APP_API_URL=http://127.0.0.1:8000
+GEMINI_API= API_KEY
 ```
 
 ### Step 4: Launch Development Server
@@ -276,7 +276,6 @@ python main.py
 - 🗂️ File browser for CSV selection
 - 📊 Matplotlib visualization panel
 - 📈 Statistics dashboard
-- 💾 Export options
 
 ---
 
@@ -287,105 +286,17 @@ python main.py
 We've included `sample_equipment_data.csv` with realistic chemical equipment parameters:
 
 ```csv
-Equipment_ID,Type,Temperature_C,Pressure_bar,Flowrate_L_min
-EQ001,Reactor,85.3,12.5,450.2
-EQ002,Heat Exchanger,62.1,8.3,320.5
+Equipment Name,Type,Flowrate,Pressure,Temperature
+Pump-1,Pump,120,5.2,110
+Compressor-1,Compressor,95,8.4,95
+Valve-1,Valve,60,4.1,105
 ...
 ```
 
-### 🎯 Quick Test Steps
-
-**Option 1: Web Interface**
-1. Navigate to http://localhost:3000
-2. Click "Upload CSV" button
-3. Select `sample_equipment_data.csv`
-4. View instant analytics and charts
-
-**Option 2: Desktop App**
-1. Launch the desktop application
-2. Click "Open File" → Select sample CSV
-3. Explore visualizations in Matplotlib
-4. Export to PDF if desired
-
-**Option 3: API Direct**
-```bash
-curl -X POST http://127.0.0.1:8000/api/upload/ \
-  -F "file=@sample_equipment_data.csv" \
-  -H "Authorization: Token YOUR_TOKEN"
-```
-
----
-
-## 📚 API Documentation
-
-### Authentication
-
-```bash
-# Get auth token
-curl -X POST http://127.0.0.1:8000/api/auth/login/ \
-  -d '{"username":"admin","password":"password"}'
-```
-
-### Upload CSV
-
-```bash
-POST /api/upload/
-Content-Type: multipart/form-data
-
-Response: {
-  "id": 1,
-  "summary": {...},
-  "timestamp": "2025-11-21T10:30:00Z"
-}
-```
-
-### Get Summary
-
-```bash
-GET /api/summary/1/
-
-Response: {
-  "total_equipment": 50,
-  "avg_temperature": 75.4,
-  "avg_pressure": 10.2,
-  "equipment_distribution": {...}
-}
-```
-
----
-
-## 🎨 Screenshots
-
-> **Note**: Add screenshots of your application here to showcase the UI
-
-```
-[Web Interface]     [Desktop App]     [PDF Report]
-    📱                  🖥️                 📄
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how:
-
-1. 🍴 Fork the repository
-2. 🌿 Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. ✅ Commit changes (`git commit -m 'Add AmazingFeature'`)
-4. 📤 Push to branch (`git push origin feature/AmazingFeature`)
-5. 🔃 Open a Pull Request
-
----
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 👨‍💻 Authors
 
-**Your Name** - *Initial work* - [GitHub Profile](https://github.com/yourusername)
+**Kanisha Ravindra Sharma** - *Initial work* - [GitHub Profile](https://github.com/KanishaSharma11)
 
 ---
 
@@ -394,17 +305,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Chart.js for beautiful web visualizations
 - Matplotlib for powerful desktop plotting
 - Django REST Framework for robust API development
-- The open-source community for inspiration
 
 ---
 
-## 📧 Contact & Support
-
-- 📫 Email: your.email@example.com
-- 🐛 Issues: [GitHub Issues](https://github.com/yourusername/Chemical-Equipment-Parameter-Visualizer/issues)
-- 💬 Discussions: [GitHub Discussions](https://github.com/yourusername/Chemical-Equipment-Parameter-Visualizer/discussions)
-
----
 
 <div align="center">
 
