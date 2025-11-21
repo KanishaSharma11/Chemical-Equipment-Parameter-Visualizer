@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
 ![Python](https://img.shields.io/badge/python-3.11+-green.svg)
 ![React](https://img.shields.io/badge/react-18.0+-61DAFB.svg)
 ![License](https://img.shields.io/badge/license-MIT-purple.svg)
@@ -110,8 +109,6 @@ Generate publication-ready reports with:
 ### 🎁 **Bonus Features**
 - 📋 Sample CSV included for instant testing
 - 🔄 Real-time data validation
-- 💾 Export capabilities (CSV, JSON, PDF)
-- 🌙 Dark mode support (web interface)
 
 ---
 
@@ -121,31 +118,24 @@ Generate publication-ready reports with:
 Chemical-Equipment-Parameter-Visualizer/
 │
 ├── 🔧 backend/                      # Django REST API
-│   ├── api/                         # API endpoints
 │   ├── core/                        # Business logic
-│   ├── models.py                    # Data models
-│   ├── serializers.py               # DRF serializers
-│   ├── views.py                     # API views
-│   └── requirements.txt             # Python dependencies
+│   ├── equipment
+│   ├── media
+│   ├── manage.py
 │
 ├── 🌐 web-frontend/                 # React.js Application
 │   ├── public/                      # Static assets
 │   ├── src/
-│   │   ├── components/              # React components
-│   │   ├── services/                # API integration
-│   │   ├── styles/                  # CSS/styling
+│   │   ├── api.js
+│   │   ├── App.css                  # CSS/styling
 │   │   └── App.js                   # Main app component
 │   └── package.json                 # Node dependencies
 │
 ├── 🖥️ desktop-app/                  # PyQt5 Application
-│   ├── ui/                          # UI components
-│   ├── utils/                       # Helper functions
 │   ├── main.py                      # Application entry
-│   └── requirements.txt             # Python dependencies
 │
 ├── 📊 sample_equipment_data.csv     # Demo dataset
 ├── 📋 requirements.txt              # Global dependencies
-├── 🐳 docker-compose.yml            # Docker setup (optional)
 └── 📖 README.md                     # You are here!
 ```
 
