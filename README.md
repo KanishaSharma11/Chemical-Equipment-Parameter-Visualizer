@@ -168,7 +168,7 @@ cd Chemical-Equipment-Parameter-Visualizer
 cd backend
 ```
 
-### Step 2: Create Virtual Environment (Recommended)
+### Step 2: Create Virtual Environment (Optional)
 
 ```bash
 # Create virtual environment
