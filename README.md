@@ -308,11 +308,3 @@ Valve-1,Valve,60,4.1,105
 
 ---
 
-
-<div align="center">
-
-### ⭐ Star this repository if you find it helpful!
-
-**Made with ❤️ and ☕ for the chemical engineering community**
-
-</div>
