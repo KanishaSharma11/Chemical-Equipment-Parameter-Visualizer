@@ -16,6 +16,17 @@ from django.http import JsonResponse
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
+import matplotlib
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, Image
+)
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+
 
 class CSVUploadView(APIView):
     authentication_classes = [BasicAuthentication]
@@ -92,33 +103,125 @@ class GeneratePDFView(APIView):
         except Upload.DoesNotExist:
             return JsonResponse({"error": "Not found"}, status=404)
 
-        buffer = io.BytesIO()
-        p = canvas.Canvas(buffer, pagesize=letter)
-        p.setFont("Helvetica", 12)
-        p.drawString(50, 750, f"Report for: {upload.original_filename}")
-        p.drawString(50, 730, f"Uploaded at: {upload.uploaded_at}")
-
-        y = 700
         summary = upload.summary_json or {}
-        p.drawString(50, y, f"Total Count: {summary.get('total_count')}")
-        y -= 20
-        p.drawString(50, y, "Averages:")
-        y -= 20
-        for k, v in (summary.get("averages") or {}).items():
-            p.drawString(70, y, f"{k}: {v}")
-            y -= 18
 
-        y -= 10
-        p.drawString(50, y, "Type distribution:")
-        y -= 20
-        for k, v in (summary.get("type_distribution") or {}).items():
-            p.drawString(70, y, f"{k}: {v}")
-            y -= 18
+        buffer = io.BytesIO()
+        pdf = SimpleDocTemplate(
+            buffer,
+            pagesize=letter,
+            title="Chemical Equipment Report",
+            leftMargin=40,
+            rightMargin=40,
+            topMargin=40,
+            bottomMargin=40
+        )
 
-        p.showPage()
-        p.save()
+        styles = getSampleStyleSheet()
+        normal = styles["Normal"]
+
+        title_style = ParagraphStyle(
+            "title",
+            parent=styles["Title"],
+            fontSize=22,
+            textColor=colors.HexColor("#2C3E50"),
+            alignment=1,
+            spaceAfter=20
+        )
+
+        header_style = ParagraphStyle(
+            "header",
+            parent=styles["Heading2"],
+            fontSize=16,
+            textColor=colors.HexColor("#34495E"),
+            spaceAfter=10
+        )
+
+        elements = []
+
+        # ---------------------------
+        # Title
+        # ---------------------------
+        elements.append(Paragraph("📘 Chemical Equipment Summary Report", title_style))
+        elements.append(Paragraph(f"File: <b>{upload.original_filename}</b>", normal))
+        elements.append(Paragraph(f"Uploaded At: {upload.uploaded_at}", normal))
+        elements.append(Spacer(1, 20))
+
+        # ---------------------------
+        # Summary Table
+        # ---------------------------
+        elements.append(Paragraph("Summary Overview", header_style))
+
+        table_data = [
+            ["Parameter", "Value"],
+            ["Total Equipment", summary.get("total_count")],
+            ["Average Flowrate", summary["averages"].get("Flowrate")],
+            ["Average Pressure", summary["averages"].get("Pressure")],
+            ["Average Temperature", summary["averages"].get("Temperature")],
+        ]
+
+        table = Table(table_data, colWidths=[200, 200])
+        table.setStyle(
+            TableStyle([
+                ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#1F618D")),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("BACKGROUND", (0, 1), (-1, -1), colors.HexColor("#EBF5FB")),
+                ("BOX", (0, 0), (-1, -1), 1, colors.gray),
+                ("GRID", (0, 0), (-1, -1), 0.5, colors.gray),
+            ])
+        )
+
+        elements.append(table)
+        elements.append(Spacer(1, 25))
+
+        # ---------------------------
+        # PIE CHART (Type Distribution)
+        # ---------------------------
+        type_dist = summary["type_distribution"]
+
+        if type_dist:
+            pie_buffer = io.BytesIO()
+            labels = list(type_dist.keys())
+            values = list(type_dist.values())
+
+            plt.figure(figsize=(5, 5))
+            plt.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
+            plt.title("Equipment Type Distribution")
+            plt.tight_layout()
+            plt.savefig(pie_buffer, format="png")
+            plt.close()
+
+            pie_buffer.seek(0)
+            elements.append(Paragraph("Equipment Type Distribution", header_style))
+            elements.append(Image(pie_buffer, width=350, height=350))
+            elements.append(Spacer(1, 20))
+
+        # ---------------------------
+        # BAR CHART (Counts)
+        # ---------------------------
+        bar_buffer = io.BytesIO()
+        plt.figure(figsize=(6, 4))
+        plt.bar(labels, values)
+        plt.title("Count by Equipment Type")
+        plt.ylabel("Count")
+        plt.tight_layout()
+        plt.savefig(bar_buffer, format="png")
+        plt.close()
+
+        bar_buffer.seek(0)
+        elements.append(Paragraph("Equipment Count Chart", header_style))
+        elements.append(Image(bar_buffer, width=400, height=300))
+        elements.append(Spacer(1, 20))
+
+        # ---------------------------
+        # Build PDF
+        # ---------------------------
+        pdf.build(elements)
         buffer.seek(0)
+
         return HttpResponse(buffer, content_type="application/pdf")
+
 
 
 @csrf_exempt
