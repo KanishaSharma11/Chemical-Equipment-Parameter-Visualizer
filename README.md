@@ -8,7 +8,7 @@
 
 **A powerful full-stack analytics platform for chemical equipment data analysis**
 
-[Features](#-key-features) • [Quick Start](#-quick-start) • [Documentation](#-project-structure) • [Demo](#-testing-with-sample-data)
+[Features](#-key-features) • [Quick Start](#-quick-start) • [Documentation](#-project-structure) • [Demo](https://drive.google.com/file/d/1xuXRLqJmBCQUvYmprGTrLJfed44W0ONL/view?usp=sharing)
 
 </div>
 
