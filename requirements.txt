@@ -6,21 +6,30 @@ Django==5.0.3
 djangorestframework==3.15.1
 django-cors-headers==4.3.1
 
-# ---- CSV Upload & Processing ----
+# ---- CSV Upload & Data Processing ----
 pandas==2.2.1
 numpy==1.26.4
 
 # ---- PDF Generation ----
 reportlab==4.1.0
 
-# ---- Authentication / Security ----
+# ---- Charts for PDF ----
+matplotlib==3.8.3
+
+# ---- Authentication Utilities ----
 PyJWT==2.8.0
+
+# ---- File Type Detection (Optional but used) ----
+python-magic==0.4.27
 
 # ---- PyQt5 Desktop App ----
 PyQt5==5.15.10
 PyQt5-Qt5==5.15.2
 PyQt5-sip==12.12.2
 
-# ---- Extra Utilities ----
+# ---- HTTP Requests / Environment Variables ----
 requests==2.31.0
 python-dotenv==1.0.1
+
+# ---- Other Utilities ----
+Pillow==10.2.0
