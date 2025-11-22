@@ -109,6 +109,7 @@ Generate publication-ready reports with:
 ### 🎁 **Bonus Features**
 - 📋 Sample CSV included for instant testing
 - 🔄 Real-time data validation
+- 🤓 Smart AI Insights
 
 ---
 
